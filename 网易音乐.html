@@ -1,0 +1,859 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+        }
+
+        ul, ol {
+            list-style: none;
+        }
+
+        .box {
+            width: 350px;
+            height: 500px;
+             padding: 20px;
+            position: relative;
+            left: 490px;
+            top: 50px;
+            color: white;
+            overflow: hidden;
+        }
+
+        .box .list {
+            position: absolute;
+            height: 330px;
+            margin-top: 85px;
+            width: 390px;
+            left: 000px;
+            color: white;
+            background-color: rgba(255, 240, 247, 0.3);
+            display: none;
+        }
+
+        .box .middle {
+            width: 230px;
+            height: 230px;
+            border-radius: 50%;
+            margin: 50px 0 70px 60px;
+            background: url("http://pic.baike.soso.com/p/20140512/20140512114608-839993422.jpg") no-repeat -4px -3px;
+            background-size: 306px 306px;
+            position: relative;
+        }
+
+        .middle > img {
+            width: 150px;
+            position: relative;
+            border-radius: 50%;
+            left: 50%;
+            margin: 41px 0 20px -75px;
+        }
+
+        .top {
+            width: 100%;
+            height: 80px;
+            position: relative;
+
+        }
+
+        .bottom-ctr {
+            width: 100%;
+            height: 30px;
+            position: relative;
+
+        }
+
+        .bottom-ctr > .ctr-strip {
+            height: 6px;
+            width: 70%;
+            float: left;
+            position: relative;
+            top: 10px;
+            margin: 0 10px;
+            background-color: #fff;
+            cursor: pointer;
+
+        }
+
+        .bottom-ctr > .ctr-strip > .mask-strip {
+            position: absolute;
+            height: 6px;
+            background-color: rgba(255, 69, 27, 0.9);
+        }
+
+        .bottom-ctr > .ctr-strip > .ctr-circle {
+            position: absolute;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            margin-top: -6px;
+            background-color: greenyellow;
+
+        }
+
+        .bottom-ctr > span {
+            float: left;
+        }
+
+        .bottom-btn {
+            width: 100%;
+            height: 50px;
+            position: relative;
+         }
+
+        .bottom-btn > ul > li {
+            float: left;
+            width: 28px;
+            height: 28px;
+             margin: 5px 18px;
+        }
+
+        .bottom-btn .loop {
+            background: url("http://s2.music.126.net/style/web2/img/frame/playbar.png?b0e87a76e99d6bd78d857717e7fe163f") no-repeat;
+            background-position: -64px -342px;
+        }
+
+        .loop:hover {
+            background-position: -90px -342px
+        }
+
+        .bottom-btn .prev {
+            background: url("http://s2.music.126.net/style/web2/img/frame/playbar.png?b0e87a76e99d6bd78d857717e7fe163f") no-repeat 0 -130px;
+        }
+
+        .bottom-btn .prev:hover {
+            background-position: -30px -130px;
+        }
+
+        .bottom-btn .start {
+            width: 32px;
+            height: 32px;
+            margin-top: 3px;
+            background: url("http://s2.music.126.net/style/web2/img/frame/playbar.png?b0e87a76e99d6bd78d857717e7fe163f") no-repeat -2px -206px;
+        }
+
+        .bottom-btn .start:hover {
+            background-position: -42px -206px;
+        }
+
+        .bottom-btn .next {
+            background: url("http://s2.music.126.net/style/web2/img/frame/playbar.png?b0e87a76e99d6bd78d857717e7fe163f") no-repeat -80px -130px;
+        }
+
+        .bottom-btn .next:hover {
+            background-position: -110px -130px;
+        }
+
+        .bottom-btn .voice {
+            background: url("http://s2.music.126.net/style/web2/img/frame/playbar.png?b0e87a76e99d6bd78d857717e7fe163f") no-repeat -30px -247px;
+        }
+
+        .list li > p {
+            text-indent: 14px;
+            height: 35px;
+            font-weight: 500;
+            border-bottom: 1px dashed #45a753;
+            font-size: 20px;
+         }
+
+        .list {
+            overflow-y: scroll;
+        }
+
+        .list li span {
+            display: inline;
+            width: 15px;
+            height: 15px;
+            font-size: 13px;
+        }
+
+        .active {
+            color: #65ff29;
+        }
+
+        .bgImg {
+            width: 100%;
+            margin-left: -20px;
+            margin-top: -20px;
+            filter: blur(30px);
+            background-attachment: fixed;
+            height: 100%;
+            position: absolute;
+            z-index: -1;
+        }
+
+        .box > .show {
+            width: 10px;
+            height: 200px;
+            position: absolute;
+            margin-top: 160px;
+            margin-left: -20px;
+            background-color: rgba(137, 134, 144, 0.4);
+        }
+
+        .voice-box {
+            width: 28px;
+            height: 100px;
+            background-color: rgba(0, 0, 0, .5);
+            position: absolute;
+            right: 44px;
+            top: -100px;
+            display: none;
+            overflow: hidden;
+        }
+
+        .voice-strip, .voice-mask {
+            width: 6px;
+            height: 100px;
+            left: 11px;
+            margin-top: 50px;
+            background-color: red;
+            position: absolute;
+        }
+
+        .voice-mask {
+            margin-top: 0;
+            background-color: rgba(255, 255, 255, 0.3);
+            z-index: 8;
+        }
+
+        .voice-circle {
+            width: 16px;
+            height: 16px;
+            position: absolute;
+            left: 6px;
+            margin-top: 50px;
+            background-color: #66e256;
+            border-radius: 50%;
+            z-index: 9;
+        }
+
+        html, body {
+            width: 100%;
+            height: 100%;
+        }
+
+        body {
+            overflow: hidden; /* overflow: hidden 解决外边距塌陷*/
+            background: url('2.jpg') no-repeat center center;
+            background-size: cover;
+        }
+
+        .bottom-ctr > p {
+            background-color: rgba(0, 0, 0, 0.2);
+            padding: 0 10px;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: 300;
+            height: 30px;
+            line-height: 30px;
+            position: absolute;
+            top: -30px;
+            left: 100px;
+            display: none;
+        }
+
+        .ipt {
+            width: 150px;
+            height: 30px;
+            position: absolute;
+            border-radius: 13px;
+            text-indent: 10px;
+            font-size: 15px;
+            right: 10px;
+            border: none;
+            outline: none;
+            color: #fff4f4;
+            background-color: hsla(213, 25%, 66%, 0.3);
+        }
+
+        .list-mask {
+            display: none;
+            font-size: 20px;
+            text-align: center;
+            line-height: 330px;
+            font-weight: 300;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+
+        /*歌曲搜索 关键字Mark颜色*/
+        .list ol mark {
+            background-color: rgba(255, 49, 223, 0.6);
+        }
+
+        /*歌曲列表鼠标移入变手*/
+        .list ol li {
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+<audio>
+</audio>
+<div class="box">
+    <div class="bgImg"></div>
+    <div class="show"></div>
+    <div class="list">
+        <div class="list-mask"><p>未搜相关歌曲</p></div>
+        <ol>
+        </ol>
+    </div>
+    <div class="top">
+        <h2></h2> <input class="ipt" placeholder="搜索歌曲" value="" type="text">
+        <p></p>
+    </div>
+    <div class="middle">
+        <img src="http://p1.music.126.net/MTG-nrAtrbaV_0k6gTn40A==/3397490932848120.jpg?param=130y130" class="j-img"
+             data-src="http://p1.music.126.net/MTG-nrAtrbaV_0k6gTn40A==/3397490932848120.jpg">
+
+    </div>
+    <div class="bottom-ctr">
+        <p>该资源无法播放</p>
+        <span>00:00</span>
+        <div class="ctr-strip">
+            <div class="mask-strip"></div>
+            <div class="ctr-circle"></div>
+        </div>
+        <span></span>
+    </div>
+    <div class="bottom-btn">
+        <ul>
+            <li class="loop"></li>
+            <li class="prev"></li>
+            <li class="start"></li>
+            <li class="next"></li>
+            <li class="voice"></li>
+
+        </ul>
+        <div class="voice-box">
+            <div class="voice-mask"></div>
+            <div class="voice-strip"></div>
+            <div class="voice-circle"></div>
+        </div>
+    </div>
+
+</div>
+</body>
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script>
+
+<script>
+
+    //变量
+    {
+        var index1 = 0;
+        var index = 0;
+        var i = 0;
+        var timer = null;
+        var timer1 = null;
+        var timer2 = null;
+        var jieliu = null;
+        var tof = false;//控制列表以搜索后的显示，还是以所有歌曲显示
+        var CON = null;//Can Or Not 可不可以播放
+        var crtV = 50; //声明初识声音为50%
+        var audio11 = document.querySelector('audio');
+    }
+
+    //歌曲循环函数
+    function xunhuan() {
+        arr = ['-64px -342px', '-0px -342px', '-64px -248px'];
+        arr1 = ['-90px -342px', '-30px -342px', '-91px -248px'];
+        //循环按钮点击 绑定事件
+        $('.loop').click(function () {
+            index1++;
+            index1 = index1 > 2 ? 0 : index1;
+            $('.loop').css({
+                backgroundPosition: arr[index1]
+            });
+            //循环控制按钮 hover 绑定事件
+            $('.loop').hover(function () {
+                $('.loop').css({
+                    backgroundPosition: arr1[index1]
+                })
+            }, function () {
+                $('.loop').css({
+                    backgroundPosition: arr[index1]
+                })
+            });
+            if (index1 == 0) { //单曲循环
+                audio11.onended = function () {
+                    index = index;
+                    xunhuan();
+                    bofang();
+                }
+            }
+            if (index1 == 1) { //列表循环
+                audio11.onended = function () {
+                    nextSong();
+                }
+            }
+            if (index1 == 2) { //随机播放
+                audio11.onended = function () {
+                    index = Math.floor(Math.random() * data.length);
+                    nextSong();
+                }
+            }
+        });
+    }
+
+    //页面已加载，就可以调整循环方式
+    xunhuan();
+    //歌曲数据
+    var data = [
+        {
+            pic: 'http://p1.music.126.net/sCmlogyXI3bF1kWZviuWLw==/18973172648993092.jpg?param=130y130',
+            src: 'http://m10.music.126.net/20180610161744/6e9879bfc06fcc187f6eaa1502802ef9/ymusic/1225/a553/bce3/4599701d78c66e94b53e91de0ea1782b.mp3',
+            singer: 'George Harrison',
+            song: 'My Sweet Lord'
+        },
+        {
+            pic: 'http://p1.music.126.net/JXD7vcFZfjJtVMnj3aDNYQ==/2906009233600984.jpg?param=130y130',
+            src: 'http://m10.music.126.net/20180610163956/213e0a68eb9cd107a38ac1bcaa28b42a/ymusic/4a86/017d/2ce4/13e71847deab1f176b976b10a586e6f1.mp3',
+            singer: 'Sia',
+            song: 'California Dreamin\''
+        },
+        {
+            pic: 'http://p1.music.126.net/VTh8HTqHCIthYjeK5qCbuw==/109951163197845720.jpg?param=130y130',
+            src: 'http://m10.music.126.net/20180610171618/d3742d342000c3cb97ec17162ca75124/ymusic/7b4a/be95/8e28/00bfafeb50b51cbc636d8322a8f0cc8d.mp3',
+            singer: 'BIGBANG ',
+            song: 'If You'
+        },
+        {
+            pic: 'http://p1.music.126.net/A4uaT5QYp0f9krXBBvrpKg==/936783906920290.jpg?param=130y130',
+            src: 'http://m10.music.126.net/20180610162613/f666a8bb22db91780c3d54da2f6eb722/ymusic/2382/68eb/39bd/6d06601256df7838bfb47135e471ab49.mp3',
+            singer: 'Paul Schwartz',
+            song: 'Veni Redemptor Gentium'
+        },
+
+        {
+            pic: 'http://p1.music.126.net/xoHJX80eswjokb2NROPTpw==/6638851209070786.jpg?param=130y130',
+            src: 'http://m10.music.126.net/20180610164243/6258a6db50e70ca16b3da35a9a6be91c/ymusic/077d/109a/3e46/f0ec754fd3af9b3082479086ebf84fbd.mp3',
+            singer: 'Chill Carrier',
+            song: 'Never Far Apart'
+        },
+        {
+            pic: 'http://p1.music.126.net/JIc9X91OSH-7fUZqVfQXAQ==/7731765766799133.jpg?param=130y130',
+            src: 'http://m10.music.126.net/20180610170513/571be25055cd2ca4ce6cd57adece13f0/ymusic/6517/af36/8fef/59653a7de4dfc7b2271701cfe317c614.mp3',
+            singer: 'Wiz Khalifa / Charlie Puth',
+            song: 'See You Again'
+        }, {
+            pic: 'http://p1.music.126.net/Q27RX1WJ7x92mn7-PZrvbw==/6642149744321113.jpg?param=130y130',
+            src: 'http://m10.music.126.net/20180610165041/00e488df5f1804c0a9c1eb98a3191eb7d/ymusic/aebd/55df/7c15/0ee27be4504965aa4232a98119127d9a.mp3',
+            singer: 'Way Out West',
+            song: 'Don\'t Forget Me'
+        },
+        {
+            pic: 'http://p1.music.126.net/MTG-nrAtrbaV_0k6gTn40A==/3397490932848120.jpg?param=130y130',
+            src: 'http://m10.music.126.net/20180610163533/3723d61a0d886869387c83356e6356d2/ymusic/0b68/7563/2a4e/0907eeddb6c00283a0f2ae6809b61cec.mp3',
+            singer: 'Joel Adams',
+            song: 'Please Dont Go'
+        },
+
+        {
+            pic: 'http://p1.music.126.net/PEW2AvpI1Gfnm_uUZ1iPMw==/6646547790045206.jpg?param=130y130',
+            src: 'http://m10.music.126.net/20180610163344/6be68417678cf4937b66b7da889504c6/ymusic/9d03/05fb/e436/9bdf8c57b5650e0047e827b57d601497.mp3',
+            singer: 'Charlie Landsborough',
+            song: 'Auld Lang Syne'
+        },
+        {
+            pic: 'http://p1.music.126.net/vkoQqphGwk6TyRFai3ZBdw==/3238061743857732.jpg?param=130y130',
+            src: 'http://m10.music.126.net/20180610163707/9af9c39f80f320cb911c67937460c42a/ymusic/a4ca/5760/4211/f02d2f0b4ad4ed0051129866655b124a.mp3',
+            singer: '洛天依',
+            song: '红尘客栈  !!-.-'
+        },
+        {
+            pic: 'http://p1.music.126.net/FKn_xApacczKoTE9w5UA8A==/3405187514708902.jpg?param=130y130',
+            src: 'http://m10.music.126.net/20180610163141/f8ffeab4cbee08f79c71d544551b0a28/ymusic/e196/07fa/2719/7fe7047fc7f47fab418acba5ed9010c2.mp3',
+            singer: 'Charlie Lb',
+            song: 'Love You Every Second'
+        }, {
+            pic: 'http://p1.music.126.net/qAI0qY26ZPky_uJdzOYIAQ==/1716337650968183.jpg?param=130y130',
+            src: 'http://m10.music.126.net/20180610170735/5975928a59da00de3fcb48f5b668dfe4/ymusic/8d3b/3843/0fb4/a31c74deb1d0e725579f327babee32a2.mp3',
+            singer: 'Robert Miles',
+            song: 'Children'
+        }];
+
+    //添加歌曲到页面
+    function init() {
+        index = index;
+        $('.top').find('h2').html(data[index].song);
+        $('.top').find('p').html(data[index].singer);
+        $('.middle img').attr('src', data[index].pic);
+        $('ol li').eq(index).addClass('active').siblings().removeClass('active');
+        $('.bgImg').css({
+            'background': 'hsla(' + parseInt(Math.random() * 360) + ', 66%, 47%, 0.3)',
+            // background: 'url(' + data[0].pic + ')no-repeat center center',
+            backgroundSize: '100% 100%'
+        });
+        audio11.src = data[index].src;
+        i = 0;
+        audio11.volume = 0.5;//声音默认50%
+    }
+
+    init();
+
+    //音乐播放 样式函数
+    function bofang() {
+        if (audio11.paused) {
+            clearInterval(timer);
+            audio11.play();
+            timer = setInterval(function () {
+                i++;                // audio11.play();
+                $('.middle img').css('transform', 'rotate(' + i + 'deg)')
+            }, 60);
+            $(' .bottom-btn .start').css('backgroundPosition', '-2px -167px');
+        } else {
+            audio11.pause();
+            clearInterval(timer);
+            $(' .bottom-btn .start').css(
+                'backgroundPosition', '-2px -206px');
+        }
+
+
+    }
+    $('.list').find('li').hover(function () {
+        $(this).css({
+            backgroundColor: 'rgba(255, 137, 138, 0.8)'
+        });
+        $(this).click(function () {
+            srcRtorWg();
+            index = $(this).index();
+            $('.list').hide();
+            init();    // bofang();  // tof = true;
+        });
+    }, function () {
+        $(this).css({
+            backgroundColor: 'rgba(255, 137, 138, 0)'
+        })
+    }); //16:48
+    //声音控制条 点击和hover 绑定事件
+    $('.voice-box').click(function (e) {
+        audio11.volume = (100 - e.offsetY) / 100;
+        $('.voice-strip').css('marginTop', e.offsetY);
+        $('.voice-circle').css('marginTop', e.offsetY);
+        console.log(audio11.volume);
+        // $('.box').css('background', 'hsla(' + e.offsetY * 3.6 + ', 30%, 20%, 0.3)');
+        crtV = e.offsetY;
+    }).hover(function () {
+        clearTimeout(timer2)
+    }, function () {
+        clearTimeout(timer1);
+        timer1 = setTimeout(function () {
+            $('.voice-box').hide();
+        }, 600)
+    });
+    //静音按钮hover 绑定事件
+    $('.bottom-btn').find('.voice').hover(function () {
+        clearTimeout(jieliu);
+        jieliu = setTimeout(function () {
+            $('.voice-box').show();
+        }, 500)
+    }, function () {
+        clearTimeout(timer2);
+        timer2 = setTimeout(function () {
+            $('.voice-box').hide();
+        }, 500)
+    });
+    //静音按钮点击 绑定事件
+    $('.bottom-btn').find('.voice').click(function () {           //静音
+        if (audio11.muted) {
+            audio11.muted = false;
+            audio11.volume = (100 - crtV) / 100;
+            $('.voice-strip').css('marginTop', crtV);
+            $('.voice-circle').css('marginTop', crtV);
+            $(this).css({
+                backgroundPosition: '-30px -247px'
+            })
+        } else {
+            audio11.muted = true;
+            $('.voice-strip').css('marginTop', 100);
+            $('.voice-circle').css('marginTop', 100);
+            $(this).css({
+                backgroundPosition: '-128px -68px'
+            });
+        }
+    });
+    //当歌曲加载完成可以播放时 绑定事件
+    audio11.addEventListener('canplay', function () {
+        var $M = parseInt(audio11.duration / 60);
+        var $S = parseInt(audio11.duration % 60);
+        $('.bottom-ctr span').eq(1).html(style($M) + ':' + style($S));//歌曲总时间
+        //当歌曲时间发生变化时 绑定事件
+        audio11.addEventListener('timeupdate', function () {
+            con = true;
+            var $currenM = parseInt(audio11.currentTime / 60);
+            var $currentS = parseInt(audio11.currentTime % 60);
+            $('.bottom-ctr span').eq(0).html(style($currenM) + ':' + style($currentS));//歌曲当前播放时间
+            $('.ctr-circle').css({
+                left: (audio11.currentTime / audio11.duration) * ($('.ctr-strip').width() - 10)
+            });
+            $('.mask-strip').css({
+                width: (audio11.currentTime / audio11.duration) * ($('.ctr-strip').width() - 10)
+            })
+        });
+        //歌曲进度条点击调整
+        $('.ctr-strip').click(function (e) {
+            audio11.currentTime = e.offsetX / $('.ctr-strip').width() * audio11.duration
+        });
+    });
+
+    //格式化时间
+    function style(time) {
+        return time < 10 ? '0' + time : time;
+    }
+
+    //歌曲列表显示 触发事件
+    document.querySelector('.show').addEventListener('mousemove', showList);
+
+    //歌曲列表显示函数
+    function showList() {
+        $('.list').show();
+        $('.list').css('zIndex', '9');
+        $('.list').mouseleave(function () {
+            $('.list').hide()
+        })
+    }
+
+    // 歌曲资源是否可以播放
+    function srcRtorWg() {
+        clearTimeout(CON);
+        CON = setTimeout(function () {
+            if (isNaN(audio11.duration)) {
+                $('.bottom-ctr>p').stop().fadeIn(1000).fadeOut(800);
+                $('.bottom-btn .start').css({
+                    backgroundPosition: '-2px -206px'
+                });
+                clearInterval(timer);
+
+            } else {
+                //播放按钮点击 绑定事件
+            }
+        }, 200)
+
+    }
+
+    srcRtorWg();
+    //开始暂停 按钮点击事件
+    $('.middle, .bottom-btn .start').click(function () {
+        srcRtorWg();
+        xunhuan();
+        bofang();
+    });
+    // 上一曲按钮点击 绑定事件
+    $(' .bottom-btn .prev').click(function () {
+        index--;
+        index = index < 0 ? data.length - 1 : index;
+        init();
+        bofang();
+        srcRtorWg();
+    });
+    // 下一曲按钮点击 绑定事件
+    document.querySelector('.next').addEventListener('click', nextSong);
+
+    function nextSong() {
+        index++;
+        index = index > data.length - 1 ? 0 : index;
+        init();
+        bofang();
+        srcRtorWg();
+    }
+
+    //默认单曲循环
+    audio11.onended = function () {
+        index = index;
+        xunhuan();
+        bofang();
+    };
+    //切换音乐显示列表
+     function changeList() {
+        if (tof == false) {
+            var str = '';
+            $(data).each(function (i, e) {
+                str += '<li><p>' + e.song + '--' + '<span>' + e.singer + '</span></p></li>';
+                $('.box').find('ol').html(str)
+            });
+        }
+        $('.list').find('li').hover(function () {
+            $(this).css({
+                backgroundColor: 'rgba(255, 137, 138, 0.8)'
+            });
+            $(this).click(function () {
+                srcRtorWg();
+                index = $(this).index();
+                $('.list').hide();
+                init();
+                bofang();
+                // tof = true;
+            });
+        }, function () {
+            $(this).css({
+                backgroundColor: 'rgba(255, 137, 138, 0)'
+            })
+        }); //16:48
+    }
+
+    changeList();//切换音乐显示列表//  16:39
+
+    //搜索框函数
+    function search() {
+        document.querySelector('.ipt').onfocus = function () {
+            document.querySelector('.ipt').oninput = (function () {//oninput
+                tof = true;
+                var val = this.value;
+                var strr = '';
+                var arrr = [];
+                var indexx = [];
+                var kk = '';
+                for (var j = 0; j < data.length; j++) {
+                    var ggg = data[j].song;
+                    var reg = new RegExp(val, 'i', 'm');
+                    if (ggg.match(reg) !== null) {
+                        kk = ggg.match(reg).input.replace(ggg.match(reg).input[ggg.match(reg).index], '<mark>' + ggg.match(reg).input[ggg.match(reg).index] + '</mark>')
+                        strr += '<li><p>' + kk + '<span>' + data[j].singer + '</span></p></li>';//<mark>'+ggg.match(reg).input[ggg.match(reg).index]+'</mark>
+                        $('.box').find('ol').html(strr);
+                        indexx.push(ggg.match(reg).index);
+                        arrr.push(j);
+                    }
+                }
+
+                if (arrr.length === 0) {
+                    showList();
+                    $('.list-mask').show(1);
+                } else {
+                    $('.list-mask').hide(1);//bug  搜索k 已解决
+                    showList();
+
+                }
+                $('.list').find('li').click(function () {
+                    srcRtorWg();
+                    index = $(this).index();
+                    index = arrr[index];
+                    changeList();
+                    init();
+                    bofang();
+                    $('.list').hide();
+                    setTimeout(function () {//清空搜索框内容
+                        document.querySelector('.ipt').value = null;
+                    }, 300)
+                })
+            });
+
+            document.querySelector('.ipt').onblur = function () {
+                tof = false;
+                setTimeout(function () {//搜索框失去焦点，清空搜索框内容
+                    document.querySelector('.ipt').value = null;
+                    $('.list').hide();
+                    $('.list-mask').hide(1);
+                }, 300)
+            };
+            document.querySelector('.ipt').onkeyup = function () {
+                if (document.querySelector('.ipt').value === '') {//搜索框内容为空，歌曲列表不显示 null不对 0不对 ''正确
+                    $('.list').hide(0);
+                    tof = false;
+                }
+            };
+
+        };
+
+    }
+    search();
+    //拖动效果
+    var box=document.getElementsByClassName('box')[0];
+    box.onmousedown=function (e) {
+        var ev=e||event;
+        var x=ev.clientX-box.offsetLeft;
+        var y=ev.clientY-box.offsetTop;
+        document.onmousemove=function (e) {
+            var ev=e||event;
+            var left=ev.clientX-x;
+            var top=ev.clientY-y;
+            var maxW=document.clientWidth||document.documentElement.clientWidth-box.offsetWidth;
+            var maxH=document.clientHeight||document.documentElement.clientHeight-box.offsetHeight;
+            left=left<0?0:left&&left>maxW?maxW:left;
+            top=top<0?0:top&&top>maxH?maxH:top;
+            top= top<0?0:top;
+            box.style.left=left+'px';
+            box.style.top=top+'px';}
+    };
+    box.onmouseup=function () {
+        document.onmousemove=null;
+    }
+
+
+</script>
+<script>
+    // var ii=-1;
+    // $(document).keydown(function (e) {
+    //     var lth=arrr.length;
+    //    var ev=e||event;
+    //     if(ev.keyCode===40){
+    //        ii++;
+    //        ii=ii>lth-1?0:ii;
+    //        $('.list').find('li').eq(ii).css({
+    //            backgroundColor: 'rgba(255, 137, 138, 0.8)',
+    //            cursor: 'pointer'
+    //        }).siblings().css('backgroundColor', 'rgba(255, 137, 138, 0)');
+    //
+    //
+    //    }
+    //     // if(ev.keyCode===13){
+    //     //     index = arrr[ii];
+    //     //     srcRtorWg();
+    //     //     init();
+    //     //     bofang();
+    //     //     xunhuan()
+    //     // }
+    // });
+
+
+    // tof = false; srcRtorWg();
+    // changeList()
+    // index = index;
+    //
+    //
+    // $('.list').hide();
+    // init();
+    // bofang();
+    // $('.list').find('li').hover(function () {
+    //     $(this).css({
+    //         backgroundColor: 'rgba(255, 137, 138, 0.8)'
+    //     });
+    //
+    //
+    // }, function () {
+    //     $(this).css({
+    //         backgroundColor: 'rgba(255, 137, 138, 0)'
+    //     })
+    // }); //16:48
+
+
+    // $('.box').mousedown(function (e) {
+    //     // var xx=e.clientX;
+    //     // var yy=e.clientY;
+    //     //
+    //     // console.log(xx);
+    //     // console.log(yy);
+    //     var ev=e||event;
+    //     var xx=ev.clientX;
+    //     var yy=ev.clientY;
+    //     $(this).mousemove(function (e) {
+    //
+    //         $('.box').css({
+    //             marginLeft:xx+e.clientX-490
+    //         })
+    //
+    //
+    //
+    //     })
+    //     $(this).mouseup(function () {
+    //         $('.box').unbind('mousemove')
+    //         $('.box').unbind('mousedown')
+    //
+    //     })
+    // })
+</script>
+
+</html>
