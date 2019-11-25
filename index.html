@@ -11,6 +11,8 @@
 <div id="elDiv">
     <h1>测试数据</h1>
 </div>
+    <button id="btn" onclick="printDiv('elDiv');">打印</button>
+<button id="btn2" onclick="tankuang;">ceshi打印</button>
 <script type="text/javascript">
 
     var tankuang=function () {
@@ -32,7 +34,7 @@
         //PageSetup("margin_right","0");
         //PageSetup("margin_bottom","0");
         //PageSetup("margin_left","0");
-        //wb2.ExecWB(7,1);
+         wb2.ExecWB(7,1);
         document.all.wb2.ExecWB(7,1);
         document.close();
         //window.print();
@@ -46,8 +48,7 @@
 </script>
 
 
-<button id="btn" onclick="printDiv('elDiv');">打印</button>
-<button id="btn" onclick="tankuang;">ceshi打印</button>
+
 <!--<a href="javascript:void(0)" onclick="document.all.wb2.Execwb(6,1)">打1印</a>-->
 </body>
 
