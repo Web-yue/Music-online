@@ -15,7 +15,7 @@
 <button id="btn2" >ceshi打印</button>
 <script type="text/javascript">
 
-    var tankuang=function () {alert(3);
+    var tankuang=function (div_print) {alert(3);
          var el = document.getElementById('elTableOut');
                 var iframe = document.createElement('IFRAME');
                 var doc = null;
@@ -67,7 +67,7 @@
     }
     
      document.getElementById('btn2').onclick=function () {
-        tankuang()
+        tankuang('elTableOut')
     }
 </script>
 
