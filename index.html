@@ -8,15 +8,35 @@
     <title>Document</title>
 </head>
 <body>
-<div id="elDiv">
+<div id="elTableOut">
     <h1>测试数据</h1>
 </div>
     <button id="btn" onclick="printDiv('elDiv');">打印</button>
-<button id="btn2" onclick="tankuang;">ceshi打印</button>
+<button id="btn2" >ceshi打印</button>
 <script type="text/javascript">
 
     var tankuang=function () {
-        alert(33)
+         var el = document.getElementById('elTableOut');
+                var iframe = document.createElement('IFRAME');
+                var doc = null;
+                iframe.setAttribute('style', 'position:absolute;width:0px;height:0px;left:-500px;top:-500px;');
+                document.body.appendChild(iframe);
+                var headstr = "<html><head><title></title></head><body><OBJECT classid='CLSID:8856F961-340A-11D0-A96B-00C04FD705A2' height='0' id='wb2' name='wb2' width='0'></OBJECT>";
+                var footstr = "</body>";
+                var newstr = document.getElementById(div_print).innerHTML;
+                var oldstr = document.body.innerHTML;
+                doc = iframe.contentWindow.document;
+                // 引入打印的专有CSS样式，www.111Cn.net根据实际修改
+                // doc.write("<LINK rel="stylesheet" type="text/css" href="css/print.css">");
+                doc.write(headstr+newstr+footstr);
+                doc.close();
+                iframe.contentWindow.focus();
+                wb2.ExecWB(7,1);
+                // iframe.contentWindow.print();
+                if (navigator.userAgent.indexOf("MSIE") > 0)
+                {
+                    document.body.removeChild(iframe);
+                }
     }
 
     function printDiv(div_print) {
@@ -44,6 +64,10 @@
 
     document.getElementById('btn').onclick=function () {
         printDiv('elDiv')
+    }
+    
+     document.getElementById('btn2').onclick=function () {
+        tankuang()
     }
 </script>
 
